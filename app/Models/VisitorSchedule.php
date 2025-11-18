@@ -13,6 +13,6 @@ class VisitorSchedule extends Model
         'timeslot',
         'first_name',
         'last_name',
-        'registration_number'
+        'membership_number'
     ];
 }
