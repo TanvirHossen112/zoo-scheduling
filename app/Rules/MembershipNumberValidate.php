@@ -14,6 +14,9 @@ class MembershipNumberValidate implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if (!$value) {
+            return;
+        }
         $string_parts = explode('-', $value);
         $first_part = (int)($string_parts[0] . $string_parts[1]);
         $mod = $first_part % 97;

@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class AvailableTimeSlotController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return array
+     */
     public function __invoke(Request $request)
     {
         $date = $request->get('date');
