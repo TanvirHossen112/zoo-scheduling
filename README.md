@@ -1,59 +1,145 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🦁 Zoo Scheduling System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern Laravel + Vue.js application for managing zoo visitor schedules with time slot availability tracking and
+visitor analytics.
 
-## About Laravel
+## 📋 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Visitor Schedule Management**
+    - Schedule zoo visits with date and time slot selection
+    - Support multiple visitors per booking (up to 3)
+    - Dynamic time slot availability based on capacity (200 visitors per slot)
+    - Real-time validation with error feedback
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Membership Number Validation**
+    - Custom validation rule with checksum algorithm
+    - Format: `XXXX-XXXX-XX` (10 digits with hyphens after 4th and 8th positions)
+    - Checksum verification: First 8 digits modulo 97 equals last 2 digits
+    - Example: `1147-2239-49` (11472239 % 97 = 49)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Analytics Dashboard**
+    - Date-wise visitor count visualization
+    - Interactive date range filtering
+    - Chart.js integration for graphical representation
 
-## Learning Laravel
+- **Modern UI/UX**
+    - Vue.js 3 with Composition API
+    - Tailwind CSS 4 styling
+    - Real-time form validation
+    - Responsive design
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠️ Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Backend:** Laravel 12.38.1 (PHP 8.3)
+- **Frontend:** Vue.js 3.5.24
+- **Styling:** Tailwind CSS 4.0.0
+- **Database:** MySQL
+- **Build Tool:** Vite 7.0.7
+- **Testing:** Pest PHP
+- **Package Manager:** npm
 
-## Laravel Sponsors
+## 📦 Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Prerequisites
 
-### Premium Partners
+- PHP 8.3+
+- Composer
+- Node.js & npm
+- MySQL
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Setup Steps
 
-## Contributing
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd zoo-scheduling
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-## Code of Conduct
+3. **Install Node dependencies**
+   ```bash
+   npm install
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. **Environment Configuration**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Security Vulnerabilities
+5. **Configure Database**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   Edit `.env` file:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=zoo_scheduling
+   DB_USERNAME=root
+   DB_PASSWORD=your_password
+   ```
 
-## License
+6. **Run Migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. **Build Frontend Assets**
+   ```bash
+   npm run dev
+   ```
+
+8. **Start Development Server**
+   ```bash
+   php artisan serve
+   ```
+
+   Visit: `http://localhost:8000`
+
+## 🗄️ Database Schema
+
+### `visitor_schedules` Table
+
+| Column              | Type      | Description                                       |
+|---------------------|-----------|---------------------------------------------------|
+| `id`                | bigint    | Primary key                                       |
+| `uuid`              | uuid      | Group identifier for multi-visitor bookings       |
+| `date`              | date      | Visit date                                        |
+| `timeslot`          | int       | Time slot (10, 12, 14, or 16)                     |
+| `first_name`        | string    | Visitor first name                                |
+| `last_name`         | string    | Visitor last name (nullable)                      |
+| `membership_number` | string    | Unique membership number with checksum (nullable) |
+| `created_at`        | timestamp | Creation timestamp                                |
+| `updated_at`        | timestamp | Update timestamp                                  |
+
+## 🔌 API Endpoints
+
+### Schedule Visitor
+
+**POST** `/api/v1/schedule`
+
+Create a new visitor schedule with one or multiple visitors.
+
+**Request Body:**
+
+```json
+{
+  "date": "2025-11-20",
+  "timeslot": 10,
+  "visitors": [
+    {
+      "first_name": "John",
+      "last_name": "Doe",
+      "membership_number": "1147-2239-49"
+    },
+    {
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "membership_number": "1234-5678-42"
+    }
+  ]
+}
