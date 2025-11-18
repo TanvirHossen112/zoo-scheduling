@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Actions\V1;
+namespace App\Http\Controllers;
 
 use App\Enums\Timeslot;
-use App\Http\Controllers\Controller;
 use App\Services\ScheduleAggregator;
 use Illuminate\Http\Request;
 
